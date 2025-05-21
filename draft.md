@@ -63,3 +63,85 @@
 
 4. **部署需求**
    - 是否需要支援進度保存（如 `localStorage`）。
+  
+
+
+# 菇菇栽培網頁專題 — 等級系統設計說明
+
+## 1. 等級與經驗需求資料
+
+可以用陣列或函式表示每一級所需經驗：
+
+```js
+// 等級1~30所需經驗
+const levelExp = [
+  0,    // Lv1
+  100,  // Lv2
+  250,  // Lv3
+  450,  // Lv4
+  // ...依序遞增
+  10000 // Lv30
+];
+```
+
+或用一個公式自動計算每級經驗：
+
+```js
+function getExpForLevel(level) {
+  // 例如每級經驗需求遞增
+  return Math.floor(100 * Math.pow(1.15, level - 1));
+}
+```
+
+---
+
+## 2. 菇菇稀有度與經驗對應
+
+用物件記錄不同稀有度的經驗值：
+
+```js
+const mushroomExp = {
+  common: 10,
+  rare: 30,
+  epic: 100,
+  legendary: 300
+};
+```
+
+---
+
+## 3. 玩家資料結構
+
+```js
+const player = {
+  level: 1,
+  exp: 0
+};
+```
+
+---
+
+## 4. 升級邏輯
+
+每當獲得經驗時，檢查是否升級：
+
+```js
+function gainExp(player, amount) {
+  player.exp += amount;
+  while (player.level < 30 && player.exp >= getExpForLevel(player.level + 1)) {
+    player.level += 1;
+  }
+}
+```
+
+---
+
+## 5. 種菇時獲得經驗
+
+根據菇菇稀有度給經驗：
+
+```js
+function harvestMushroom(player, rarity) {
+  gainExp(player, mushroomExp[rarity]);
+}
+```
