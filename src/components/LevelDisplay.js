@@ -1,5 +1,5 @@
 // components/LevelDisplay.js
-import React from 'react';
+import React from "react";
 import './LevelDisplay.css';
 
 const LevelDisplay = ({ level, progress }) => (

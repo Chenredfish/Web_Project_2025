@@ -1,9 +1,10 @@
+import './App.css';
+import React, { useState } from 'react';
 import WoodLog from './components/WoodLog';
 import PokedexButton from './components/PokedexButton';
 import LevelDisplay from './components/LevelDisplay';
 import Pokedex from './components/Pokedex';
 
-import './App.css';
 
 function App() {
 
