@@ -1,0 +1,212 @@
+[
+    {
+        "id" : "01",
+        "name" : "菇菇",
+        "NP" : "6",
+        "rare" : "★☆☆☆☆",
+        "image" : "src/assets/images/mushroom/ndxp_0001_01.webp"
+    },
+    {
+        "id" : "02",
+        "name" : "枯哭菇菇",
+        "NP" : "0",
+        "rare" : "★☆☆☆☆",
+        "image" : "src/assets/images/mushroom/ndxp_0002.webp"
+    },
+    {
+        "id" : "03",
+        "name" : "小白菇菇",
+        "NP" : "20",
+        "rare" : "★☆☆☆☆",
+        "image" : "src/assets/images/mushroom/ndxp_0003.webp"
+    },
+    {
+        "id" : "04",
+        "name" : "惡魔菇菇",
+        "NP" : "35",
+        "rare" : "★☆☆☆☆",
+        "image" : "src/assets/images/mushroom/ndxp_0004.webp"
+    },
+    {
+        "id" : "05",
+        "name" : "長高菇菇",
+        "NP" : "40",
+        "rare" : "★☆☆☆☆",
+        "image" : "src/assets/images/mushroom/ndxp_0005.webp"
+    },
+    {
+        "id" : "06",
+        "name" : "雙胞胎菇菇",
+        "NP" : "50",
+        "rare" : "★☆☆☆☆",
+        "image" : "src/assets/images/mushroom/ndxp_0006.webp"
+    },
+    {
+        "id" : "07",
+        "name" : "小七菇菇",
+        "NP" : "77",
+        "rare" : "★☆☆☆☆",
+        "image" : "src/assets/images/mushroom/ndxp_0007.webp"
+    },
+    {
+        "id" : "08",
+        "name" : "岩石菇菇",
+        "NP" : "80",
+        "rare" : "★★☆☆☆",
+        "image" : "src/assets/images/mushroom/ndxp_0008.webp"
+    },
+    {
+        "id" : "09",
+        "name" : "刺刺菇菇",
+        "NP" : "100",
+        "rare" : "★★☆☆☆",
+        "image" : "src/assets/images/mushroom/ndxp_0009.webp"
+    },
+    {
+        "id" : "10",
+        "name" : "偽裝菇菇",
+        "NP" : "110",
+        "rare" : "★★☆☆☆",
+        "image" : "src/assets/images/mushroom/ndxp_0010.webp"
+    },
+    {
+        "id" : "11",
+        "name" : "蔬菜菇菇",
+        "NP" : "120",
+        "rare" : "★★☆☆☆",
+        "image" : "src/assets/images/mushroom/ndxp_0011.webp"
+    },
+    {
+        "id" : "12",
+        "name" : "頑皮菇菇",
+        "NP" : "66",
+        "rare" : "★★☆☆☆",
+        "image" : "src/assets/images/mushroom/ndxp_0012.webp"
+    },
+    {
+        "id" : "13",
+        "name" : "光頭菇菇",
+        "NP" : "150",
+        "rare" : "★★☆☆☆",
+        "image" : "src/assets/images/mushroom/ndxp_0013.webp"
+    },
+    {
+        "id" : "14",
+        "name" : "猛男菇菇",
+        "NP" : "160",
+        "rare" : "★★☆☆☆",
+        "image" : "src/assets/images/mushroom/ndxp_0014.webp"
+    },
+    {
+        "id" : "15",
+        "name" : "小辣椒菇菇",
+        "NP" : "200",
+        "rare" : "★★★☆☆",
+        "image" : "src/assets/images/mushroom/ndxp_0015.webp"
+    },
+    {
+        "id": "16",
+        "name": "關東煮菇菇",
+        "NP": "210",
+        "rare": "★★★☆☆",
+        "image": "src/assets/images/mushroom/ndxp_0016.webp"
+    },
+    {
+        "id": "17",
+        "name": "三胞胎菇菇",
+        "NP": "300",
+        "rare": "★★☆☆☆",
+        "image": "src/assets/images/mushroom/ndxp_0017.webp"
+    },
+    {
+        "id": "18",
+        "name": "天使菇菇",
+        "NP": "410",
+        "rare": "★★★☆☆",
+        "image": "src/assets/images/mushroom/ndxp_0018.webp"
+    },
+    {
+        "id": "19",
+        "name": "巨人菇菇",
+        "NP": "410",
+        "rare": "★★★☆☆",
+        "image": "src/assets/images/mushroom/ndxp_0019.webp"
+    },
+    {
+        "id": "20",
+        "name": "土曾",
+        "NP": "110",
+        "rare": "★★★☆☆",
+        "image": "src/assets/images/mushroom/ndxp_0020.webp"
+    },
+    {
+        "id": "21",
+        "name": "好多菇菇",
+        "NP": "500",
+        "rare": "★★★★☆",
+        "image": "src/assets/images/mushroom/ndxp_0021.webp"
+    },
+    {
+        "id": "22",
+        "name": "奪命菇菇",
+        "NP": "666",
+        "rare": "★★★☆☆",
+        "image": "src/assets/images/mushroom/ndxp_0022.webp"
+    },
+    {
+        "id": "23",
+        "name": "法老菇菇",
+        "NP": "10000",
+        "rare": "★★★★★",
+        "image": "src/assets/images/mushroom/ndxp_0023.webp"
+    },
+    {
+        "id": "24",
+        "name": "渡假菇菇",
+        "NP": "700",
+        "rare": "★★★☆☆",
+        "image": "src/assets/images/mushroom/ndxp_0024.webp"
+    },
+    {
+        "id": "25",
+        "name": "高山菇菇",
+        "NP": "710",
+        "rare": "★★★☆☆",
+        "image": "src/assets/images/mushroom/ndxp_0025.webp"
+    },
+    {
+        "id": "26",
+        "name": "不良菇菇",
+        "NP": "800",
+        "rare": "★★★☆☆",
+        "image": "src/assets/images/mushroom/ndxp_0026.webp"
+    },
+    {
+        "id": "27",
+        "name": "喵咪菇菇",
+        "NP": "850",
+        "rare": "★★★★☆",
+        "image": "src/assets/images/mushroom/ndxp_0027.webp"
+    },
+    {
+        "id": "28",
+        "name": "原始菇菇",
+        "NP": "1000",
+        "rare": "★★★★☆",
+        "image": "src/assets/images/mushroom/ndxp_0028.webp"
+    },
+    {
+        "id": "29",
+        "name": "將軍菇菇",
+        "NP": "1250",
+        "rare": "★★★★★",
+        "image": "src/assets/images/mushroom/ndxp_0029.webp"
+    },
+    {
+        "id": "30",
+        "name": "國王菇菇",
+        "NP": "1500",
+        "rare": "★★★★★",
+        "image": "src/assets/images/mushroom/ndxp_0030.webp"
+    }
+]
