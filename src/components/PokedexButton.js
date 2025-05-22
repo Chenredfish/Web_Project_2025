@@ -1,12 +1,28 @@
-// components/PokedexButton.js
 import React from 'react';
-import './PokedexButton.css'; // 或使用 styled-components
 
-const PokedexButton = () => (
-  <button className="pokedex-button">
-    <img src="/icons/pokedex.svg" alt="圖鑑" />
-    圖鑑
-  </button>
-);
+const buttonStyle = {
+  backgroundColor: '#76aeb2',
+  borderRadius: '50%',
+  width: 60,
+  height: 60,
+  color: 'black',
+  fontWeight: 'bold',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  position: 'absolute',
+  top: 10,
+  right: 10,
+  cursor: 'pointer',
+  fontSize: 16,
+};
+
+const PokedexButton = ({ onClick }) => {
+  return (
+    <div style={buttonStyle} onClick={onClick}>
+      圖鑑
+    </div>
+  );
+};
 
 export default PokedexButton;
