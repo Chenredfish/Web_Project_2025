@@ -1,7 +1,7 @@
 // src/components/WoodLog.js
 import React, { useState } from "react";
 import MushroomSpot from "./MushroomSpot";
-import woodImg from "../assets/imagine/wood_000.png";
+import woodImg from "../assets/wood_000.png";
 
 const initialSpots = [
   { id: 1, x: 50, y: 80, hasMushroom: false },
