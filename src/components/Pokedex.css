@@ -2,7 +2,7 @@
 
 .pokedex-container {
   position: absolute;
-  top: 80px;
+  top: 120px;
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
@@ -16,13 +16,13 @@
 
 .pokedex-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
 }
 
 .pokedex-card {
   background-color: #ccc;
-  height: 80px;
+  height: 200px;
   border-radius: 6px;
   display: flex;
   flex-direction: column;

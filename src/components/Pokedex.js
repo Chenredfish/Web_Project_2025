@@ -3,9 +3,10 @@ import React from 'react';
 import './Pokedex.css';
 
 const Pokedex = ({ mushrooms = [], page = 1, onPageChange = () => {} }) => {
-  const itemsPerPage = 16;
+  const itemsPerPage = 3;
   const startIndex = (page - 1) * itemsPerPage;
   const currentPageItems = mushrooms.slice(startIndex, startIndex + itemsPerPage);
+  const totalPages = Math.ceil(mushrooms.length / itemsPerPage);
 
   return (
     <div className="pokedex-container">
@@ -39,7 +40,8 @@ const Pokedex = ({ mushrooms = [], page = 1, onPageChange = () => {} }) => {
       <div className="pokedex-nav">
         <span onClick={() => onPageChange(page > 1 ? page - 1 : 1)}>←</span>
         <span>{page}</span>
-        <span onClick={() => onPageChange(page + 1)}>→</span>
+        <span onClick={() => onPageChange(page < totalPages ? page + 1 : page)}>→
+        </span>
       </div>
     </div>
   );
