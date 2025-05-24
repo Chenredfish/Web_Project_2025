@@ -18,8 +18,8 @@ const Pokedex = ({ mushrooms = [], page = 1, onPageChange = () => {} }) => {
             <div key={index} className="pokedex-card">
               {data ? (
                 <>
-                  <img src={data.image}  alt={data.name} style={{ height: '40px' }} />
-                  <div>{data.name}</div>
+                  <img src={data.image}  alt={data.name} style={{ height: '80px' } } />
+                  <div style={{ marginTop: '16px' }}>{data.name}</div>
                   <div>NP: {data.NP}</div>
                   <div>{data.rare}</div>
                   <div>採集數量: </div>
