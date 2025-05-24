@@ -21,6 +21,7 @@ const Pokedex = ({ mushrooms = [], page = 1, onPageChange = () => {} }) => {
                   <div>{data.name}</div>
                   <div>NP: {data.NP}</div>
                   <div>{data.rare}</div>
+                  <div>採集數量: </div>
                 </>
               ) : (
                 <>
@@ -28,6 +29,7 @@ const Pokedex = ({ mushrooms = [], page = 1, onPageChange = () => {} }) => {
                   <div>名稱:</div>
                   <div>NP:</div>
                   <div>稀有度:</div>
+                  <div>採集數量: </div>
                 </>
               )}
             </div>
