@@ -21,9 +21,8 @@ function App() {
   return (
     <div className="App">
       <WoodLog />
-      <MushroomSpot onCollect={(index) => {
-        console.log(`格子 ${index} 被點擊！`);
-        // 可改成增加菇菇邏輯
+      <MushroomSpot onCollect={(index, mushroom) => {
+        console.log(`收集第 ${index + 1} 格的 ${mushroom.name}`);
       }} />
       <LevelDisplay level={5} progress={60} />
       <PokedexButton onClick={() => setShowPokedex(!showPokedex)} />
