@@ -37,7 +37,7 @@ const barFillStyle = (percent) => ({
   backgroundColor: '#a5bf37',
 });
 
-const LevelDisplay = ({ level = 6, expPercent = 70 }) => {
+const LevelDisplay = ({ level = 1, expPercent = 0 }) => {
   return (
     <div style={containerStyle}>
       <div style={levelCircleStyle}>
@@ -50,5 +50,6 @@ const LevelDisplay = ({ level = 6, expPercent = 70 }) => {
     </div>
   );
 };
+
 
 export default LevelDisplay;

@@ -2,7 +2,7 @@
 import React from 'react';
 import './Pokedex.css';
 
-const Pokedex = ({ mushrooms = [], page = 1, onPageChange = () => {} }) => {
+const Pokedex = ({ mushrooms = [], page = 1, onPageChange = () => {}, totalCollected = 0 }) => {
   const itemsPerPage = 3;
   const startIndex = (page - 1) * itemsPerPage;
   const currentPageItems = mushrooms.slice(startIndex, startIndex + itemsPerPage);
@@ -10,19 +10,21 @@ const Pokedex = ({ mushrooms = [], page = 1, onPageChange = () => {} }) => {
 
   return (
     <div className="pokedex-container">
-      <h3 style={{ margin: '0 0 10px' }}>收集到的菇菇總數：{mushrooms.length}</h3>
+      <h3 style={{ margin: '0 0 10px' }}>
+        收集到的菇菇總數（採集次數總和）：{totalCollected}
+      </h3>
       <div className="pokedex-grid">
         {Array.from({ length: itemsPerPage }).map((_, index) => {
           const data = currentPageItems[index];
           return (
             <div key={index} className="pokedex-card">
-              {data ? (
+              {data && data.count > 0 ? (
                 <>
-                  <img src={data.image}  alt={data.name} style={{ height: '80px' } } />
+                  <img src={data.image} alt={data.name} style={{ height: '80px' }} />
                   <div style={{ marginTop: '16px' }}>{data.name}</div>
                   <div>NP: {data.NP}</div>
                   <div>{data.rare}</div>
-                  <div>採集數量: </div>
+                  <div>採集數量: {data.count}</div>
                 </>
               ) : (
                 <>
@@ -40,8 +42,7 @@ const Pokedex = ({ mushrooms = [], page = 1, onPageChange = () => {} }) => {
       <div className="pokedex-nav">
         <span onClick={() => onPageChange(page > 1 ? page - 1 : 1)}>←</span>
         <span>{page}</span>
-        <span onClick={() => onPageChange(page < totalPages ? page + 1 : page)}>→
-        </span>
+        <span onClick={() => onPageChange(page < totalPages ? page + 1 : page)}>→</span>
       </div>
     </div>
   );

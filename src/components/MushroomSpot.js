@@ -1,5 +1,7 @@
+// src/components/MushroomSpot.js
 import React, { useEffect, useState } from 'react';
 
+// 格子外層定位樣式（絕對位置 + 置中）
 const gridWrapperStyle = {
   position: 'absolute',
   bottom: 85,
@@ -14,6 +16,7 @@ const gridWrapperStyle = {
   pointerEvents: 'none',
 };
 
+// 菇菇格子排列樣式（5x4）
 const gridContainerStyle = {
   display: 'grid',
   gridTemplateColumns: 'repeat(5, 40px)',
@@ -22,6 +25,7 @@ const gridContainerStyle = {
   pointerEvents: 'auto',
 };
 
+// 每個格子的樣式
 const cellStyle = {
   width: 40,
   height: 40,
@@ -33,36 +37,27 @@ const cellStyle = {
   backgroundPosition: 'center',
 };
 
+// 根據稀有度機率抽角色
 function getRandomCharacter(characters) {
   const totalWeight = characters.reduce((sum, char) => sum + char.rarity, 0);
   let rand = Math.random() * totalWeight;
-
   for (const char of characters) {
     if (rand < char.rarity) return char;
     rand -= char.rarity;
   }
-
   return characters[0]; // fallback
 }
 
-const MushroomSpot = ({ onCollect = () => {} }) => {
-  const [characters, setCharacters] = useState([]);
+const MushroomSpot = ({ characters = [], onCollect = () => {} }) => {
   const [mushroomGrid, setMushroomGrid] = useState(Array(20).fill(null));
 
-  useEffect(() => {
-    // 載入角色資料
-    fetch('/characters.json')
-      .then(res => res.json())
-      .then(data => setCharacters(data))
-      .catch(err => console.error('載入 characters.json 失敗:', err));
-  }, []);
-
+  // 每 60 秒嘗試隨機長出一朵香菇
   useEffect(() => {
     if (characters.length === 0) return;
 
     const interval = setInterval(() => {
       const emptyIndexes = mushroomGrid
-        .map((item, index) => (item === null ? index : null))
+        .map((m, i) => (m === null ? i : null))
         .filter(i => i !== null);
 
       if (emptyIndexes.length === 0) return;
@@ -75,11 +70,12 @@ const MushroomSpot = ({ onCollect = () => {} }) => {
         newGrid[randomIndex] = newMushroom;
         return newGrid;
       });
-    }, 60); // 每 1 分鐘生成一次
+    }, 60); // 1 分鐘 = 60000ms
 
     return () => clearInterval(interval);
   }, [characters, mushroomGrid]);
 
+  // 點擊格子時，觸發收集
   const handleClick = (index) => {
     const mushroom = mushroomGrid[index];
     if (mushroom) {
