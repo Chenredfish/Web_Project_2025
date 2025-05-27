@@ -70,7 +70,7 @@ const MushroomSpot = ({ characters = [], onCollect = () => {} }) => {
         newGrid[randomIndex] = newMushroom;
         return newGrid;
       });
-    }, 60); // 1 分鐘 = 60000ms
+    }, 6000); // 1 分鐘 = 60000ms
 
     return () => clearInterval(interval);
   }, [characters, mushroomGrid]);
