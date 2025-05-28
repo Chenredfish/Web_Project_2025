@@ -8,7 +8,7 @@ const gridWrapperStyle = {
   left: '50%',
   transform: 'translateX(-50%)',
   width: 1200,
-  height: 500,
+  height: 580,
   overflow: 'hidden',
   display: 'flex',
   alignItems: 'center',
@@ -136,7 +136,7 @@ const MushroomSpot = ({ characters = [], cryingCharacters = [], onCollect = () =
       spawnTimeRef.current[randomIndex] = Date.now(); // 🔧 FIXED: 時間記錄在生成瞬間
       return newGrid;
     });
-  }, 60000); // 🔧 FIXED: 每 60000ms 嘗試生成
+  }, 60); // 🔧 FIXED: 每 60000ms 嘗試生成
 
   return () => clearInterval(interval);
 }, [characters]); // 🔧 FIXED: 移除 mushroomGrid 依賴

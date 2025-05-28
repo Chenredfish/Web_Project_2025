@@ -23,7 +23,7 @@ return (
     maxHeight: 300,
     minWidth: 300,
     minHeight: 100,
-    transform: "translate(-350px, -5px)",
+    transform: "translate(-400px, -80px)",
   }}>
     <img src={woodImg} alt="原木" style={{ width: "200%", height: "200%", objectFit: "contain" }} />
     {spots.map((spot) => (
