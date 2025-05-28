@@ -1,5 +1,5 @@
 // src/components/MushroomSpot.js
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 // 格子外層定位樣式（絕對位置 + 置中）
 const gridWrapperStyle = {
@@ -88,11 +88,12 @@ function getRandomCharacter(characters) {
   return characters[0]; // fallback
 }
 
-const MushroomSpot = ({ characters = [], onCollect = () => {} }) => {
+const MushroomSpot = ({ characters = [], cryingCharacters = [], onCollect = () => {} }) => {//add
   const [mushroomGrid, setMushroomGrid] = useState(Array(50).fill(null));
+  const spawnTimeRef = useRef(Array(50).fill(null));//add
 
   // 每 60 秒嘗試隨機長出一朵香菇
-  useEffect(() => {
+/*   useEffect(() => {
     if (characters.length === 0) return;
 
     const interval = setInterval(() => {
@@ -108,12 +109,62 @@ const MushroomSpot = ({ characters = [], onCollect = () => {} }) => {
       setMushroomGrid(prev => {
         const newGrid = [...prev];
         newGrid[randomIndex] = newMushroom;
+        spawnTimeRef.current[randomIndex] = Date.now();//add
         return newGrid;
       });
     }, 600); // 1 分鐘 = 60000ms
 
     return () => clearInterval(interval);
-  },[characters, mushroomGrid]);
+  },[characters, mushroomGrid]); */
+
+  useEffect(() => {
+  if (characters.length === 0) return;
+
+  const interval = setInterval(() => {
+    setMushroomGrid(prev => {
+      const emptyIndexes = prev
+        .map((m, i) => (m === null ? i : null))
+        .filter(i => i !== null);
+
+      if (emptyIndexes.length === 0) return prev;
+
+      const randomIndex = emptyIndexes[Math.floor(Math.random() * emptyIndexes.length)];
+      const newMushroom = getRandomCharacter(characters);
+
+      const newGrid = [...prev];
+      newGrid[randomIndex] = newMushroom;
+      spawnTimeRef.current[randomIndex] = Date.now(); // 🔧 FIXED: 時間記錄在生成瞬間
+      return newGrid;
+    });
+  }, 60000); // 🔧 FIXED: 每 60000ms 嘗試生成
+
+  return () => clearInterval(interval);
+}, [characters]); // 🔧 FIXED: 移除 mushroomGrid 依賴
+
+
+
+
+    // 替換超過100000ms的香菇為哭哭香菇
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = Date.now();
+
+      setMushroomGrid(prev => {
+        const newGrid = [...prev];
+        for (let i = 0; i < newGrid.length; i++) {
+          const spawnTime = spawnTimeRef.current[i];
+          if (newGrid[i] && spawnTime && (now - spawnTime > 100000)) {
+            const newCry = getRandomCharacter(cryingCharacters);
+            newGrid[i] = newCry;
+            spawnTimeRef.current[i] = now; // reset time after replacing
+          }
+        }
+        return newGrid;
+      });
+    }, 500); // 每 0.5 秒檢查一次
+
+    return () => clearInterval(interval);
+  }, [cryingCharacters]);
 
 
   // 點擊格子時，觸發收集
@@ -123,7 +174,8 @@ const MushroomSpot = ({ characters = [], onCollect = () => {} }) => {
       onCollect(index, mushroom);
       setMushroomGrid(prev => {
         const newGrid = [...prev];
-        newGrid[index] = null;
+        newGrid[index] = null;//add
+        spawnTimeRef.current[index] = null;//add
         return newGrid;
       });
     }

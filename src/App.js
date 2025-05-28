@@ -8,6 +8,7 @@ import MushroomSpot from './components/MushroomSpot';
 
 function App() {
   const [characters, setCharacters] = useState([]);
+  const [cryingCharacters, setCrying] = useState([]);//add
   const [collectedData, setCollectedData] = useState({});
   const [exp, setExp] = useState(0);
   const [showPokedex, setShowPokedex] = useState(false);
@@ -42,6 +43,13 @@ function App() {
       .catch(err => console.error('載入 characters.json 失敗:', err));
   }, []);
 
+  useEffect(() => {
+    fetch('/crying.json')
+      .then(res => res.json())
+      .then(data => setCrying(data))
+      .catch(err => console.error('載入 crying.json 失敗:', err));
+  }, []);
+
   //收集香菇時，更新圖鑑數量與經驗
   const handleCollect = (index, mushroom) => {
     console.log(`收集第 ${index + 1} 格的 ${mushroom.name}`);
@@ -73,7 +81,7 @@ function App() {
   return (
     <div className="App">
       <WoodLog />
-      <MushroomSpot characters={characters} onCollect={handleCollect} />
+      <MushroomSpot characters={characters} cryingCharacters={cryingCharacters} onCollect={handleCollect} /> 
       <LevelDisplay level={level} expPercent={expPercent} />
       <PokedexButton onClick={() => setShowPokedex(!showPokedex)} />
       {showPokedex && (
