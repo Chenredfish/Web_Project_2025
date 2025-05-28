@@ -7,35 +7,75 @@ const gridWrapperStyle = {
   bottom: 85,
   left: '50%',
   transform: 'translateX(-50%)',
-  width: 300,
-  height: 160,
+  width: 1200,
+  height: 500,
   overflow: 'hidden',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  pointerEvents: 'none',
+  //pointerEvents: 'none',
 };
 
-// 菇菇格子排列樣式（5x4）
-const gridContainerStyle = {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(5, 40px)',
-  gridTemplateRows: 'repeat(4, 40px)',
-  gap: 10,
-  pointerEvents: 'auto',
-};
 
 // 每個格子的樣式
 const cellStyle = {
-  width: 40,
-  height: 40,
+  width: 80,
+  height: 80,
   backgroundColor: 'transparent',
   border: 'none',
   cursor: 'pointer',
   backgroundSize: 'cover',
   backgroundRepeat: 'no-repeat',
   backgroundPosition: 'center',
+  position: 'absolute', // 這是關鍵：使用絕對座標擺放
 };
+
+const cellPositions = [
+  { x: 0, y: 0 },
+  { x: 400, y: 0 },
+  { x: 800, y: 0 },
+  { x: 900, y: 0 },
+  { x: 1000, y: 0 },
+  { x: 1100, y: 0 },
+  { x: 1200, y: 0 },
+  { x: 0, y: 100 },
+  { x: 100, y: 100 },
+  { x: 200, y: 100 },
+  { x: 300, y: 100 },
+  { x: 400, y: 100 },
+  { x: 500, y: 100 },
+  { x: 600, y: 100 },
+  { x: 700, y: 100 },
+  { x: 800, y: 100 },
+  { x: 900, y: 100 },
+  { x: 1000, y: 100 },
+  { x: 1100, y: 100 },
+  { x: 1200, y: 100 },
+  { x: 0, y: 200 },
+  { x: 100, y: 200 },
+  { x: 200, y: 200 },
+  { x: 300, y: 200 },
+  { x: 400, y: 200 },
+  { x: 500, y: 200 },
+  { x: 600, y: 200 },
+  { x: 700, y: 200 },
+  { x: 800, y: 200 },
+  { x: 900, y: 200 },
+  { x: 1000, y: 200 },
+  { x: 1100, y: 200 },
+  { x: 1200, y: 200 },
+  { x: 0, y: 300 },
+  { x: 100, y: 300 },
+  { x: 200, y: 300 },
+  { x: 300, y: 300 },
+  { x: 400, y: 300 },
+  { x: 500, y: 300 },
+  { x: 600, y: 300 },
+  { x: 700, y: 300 },
+  { x: 800, y: 300 },
+  { x: 900, y: 300 },
+  { x: 1000, y: 300 },
+];
 
 // 根據稀有度機率抽角色
 function getRandomCharacter(characters) {
@@ -49,7 +89,7 @@ function getRandomCharacter(characters) {
 }
 
 const MushroomSpot = ({ characters = [], onCollect = () => {} }) => {
-  const [mushroomGrid, setMushroomGrid] = useState(Array(20).fill(null));
+  const [mushroomGrid, setMushroomGrid] = useState(Array(50).fill(null));
 
   // 每 60 秒嘗試隨機長出一朵香菇
   useEffect(() => {
@@ -60,7 +100,7 @@ const MushroomSpot = ({ characters = [], onCollect = () => {} }) => {
         .map((m, i) => (m === null ? i : null))
         .filter(i => i !== null);
 
-      if (emptyIndexes.length === 0) return;
+      if (emptyIndexes.length === 0) return;//增加
 
       const randomIndex = emptyIndexes[Math.floor(Math.random() * emptyIndexes.length)];
       const newMushroom = getRandomCharacter(characters);
@@ -70,10 +110,11 @@ const MushroomSpot = ({ characters = [], onCollect = () => {} }) => {
         newGrid[randomIndex] = newMushroom;
         return newGrid;
       });
-    }, 6000); // 1 分鐘 = 60000ms
+    }, 600); // 1 分鐘 = 60000ms
 
     return () => clearInterval(interval);
-  }, [characters, mushroomGrid]);
+  },[characters, mushroomGrid]);
+
 
   // 點擊格子時，觸發收集
   const handleClick = (index) => {
@@ -90,18 +131,21 @@ const MushroomSpot = ({ characters = [], onCollect = () => {} }) => {
 
   return (
     <div style={gridWrapperStyle}>
-      <div style={gridContainerStyle}>
-        {mushroomGrid.map((mushroom, index) => (
+      {mushroomGrid.map((mushroom, index) => {
+        const pos = cellPositions[index];
+        return mushroom && pos ? (
           <div
             key={index}
             style={{
               ...cellStyle,
-              backgroundImage: mushroom ? `url(${mushroom.image})` : 'none',
+              left: pos.x,
+              top: pos.y,
+              backgroundImage: `url(${mushroom.image})`,
             }}
             onClick={() => handleClick(index)}
           />
-        ))}
-      </div>
+        ) : null;
+      })}
     </div>
   );
 };
