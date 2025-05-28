@@ -23,8 +23,9 @@ return (
     maxHeight: 300,
     minWidth: 300,
     minHeight: 100,
+    transform: "translate(-350px, -5px)",
   }}>
-    <img src={woodImg} alt="原木" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+    <img src={woodImg} alt="原木" style={{ width: "200%", height: "200%", objectFit: "contain" }} />
     {spots.map((spot) => (
       <MushroomSpot
         key={spot.id}
