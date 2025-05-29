@@ -8,7 +8,7 @@ const gridWrapperStyle = {
   left: '50%',
   transform: 'translateX(-50%)',
   width: 1200,
-  height: 580,
+  height: 450,
   overflow: 'hidden',
   display: 'flex',
   alignItems: 'center',
