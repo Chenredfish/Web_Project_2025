@@ -78,17 +78,50 @@ const cellPositions = [
 ];
 
 // 根據稀有度機率抽角色
-function getRandomCharacter(characters) {
-  const totalWeight = characters.reduce((sum, char) => sum + char.rarity, 0);
+const starMap = {
+  "★☆☆☆☆": 1,
+  "★★☆☆☆": 2,
+  "★★★☆☆": 3,
+  "★★★★☆": 4,
+  "★★★★★": 5,
+};
+
+// 根據等級限制最大星數
+function getMaxStarsByLevel(level) {
+  if (level >= 20) return 5;
+  if (level >= 15) return 4;
+  if (level >= 10) return 3;
+  if (level >= 5) return 2;
+  return 1;
+}
+
+// 角色抽卡邏輯，根據等級限制稀有度
+function getRandomCharacter(characters, level) {
+  const maxStars = getMaxStarsByLevel(level);
+  console.log('level:', level, 'maxStars:', maxStars);
+
+  const available = characters.filter(char => {
+    const star = starMap[char.rare];
+    return star <= maxStars && char.rarity > 0;
+  });
+
+  console.log('available characters:', available.map(c => c.name));
+
+  if (available.length === 0) {
+    console.warn('No available characters for this level:', level);
+    return null; // 或回傳一個 fallback
+  }
+
+  const totalWeight = available.reduce((sum, char) => sum + char.rarity, 0);
   let rand = Math.random() * totalWeight;
-  for (const char of characters) {
+  for (const char of available) {
     if (rand < char.rarity) return char;
     rand -= char.rarity;
   }
-  return characters[0]; // fallback
+  return available[0]; // fallback
 }
 
-const MushroomSpot = ({ characters = [], cryingCharacters = [], onCollect = () => {} }) => {//add
+const MushroomSpot = ({ characters = [], cryingCharacters = [], onCollect = () => {}, level = 2 }) => {//add
   const [mushroomGrid, setMushroomGrid] = useState(Array(50).fill(null));
   const spawnTimeRef = useRef(Array(50).fill(null));//add
 
@@ -129,7 +162,7 @@ const MushroomSpot = ({ characters = [], cryingCharacters = [], onCollect = () =
       if (emptyIndexes.length === 0) return prev;
 
       const randomIndex = emptyIndexes[Math.floor(Math.random() * emptyIndexes.length)];
-      const newMushroom = getRandomCharacter(characters);
+      const newMushroom = getRandomCharacter(characters, level );
 
       const newGrid = [...prev];
       newGrid[randomIndex] = newMushroom;
@@ -139,7 +172,7 @@ const MushroomSpot = ({ characters = [], cryingCharacters = [], onCollect = () =
   }, 60); // 🔧 FIXED: 每 60000ms 嘗試生成
 
   return () => clearInterval(interval);
-}, [characters]); // 🔧 FIXED: 移除 mushroomGrid 依賴
+}, [characters,level]); // 🔧 FIXED: 移除 mushroomGrid 依賴
 
 
 

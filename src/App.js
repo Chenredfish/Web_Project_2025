@@ -64,7 +64,8 @@ function App() {
       }
       return updated;
     });
-    setExp(prev => prev + (mushroom.NP || 0)); // 增加經驗
+    setExp(prev => prev + (mushroom.NP || 0));
+    console.log(`增加經驗: ${setExp}`); // 增加經驗
   };
 
   //將每個角色與對應收集數量整合，傳給 Pokedex 顯示
@@ -81,7 +82,7 @@ function App() {
   return (
     <div className="App">
       <WoodLog />
-      <MushroomSpot characters={characters} cryingCharacters={cryingCharacters} onCollect={handleCollect} /> 
+      <MushroomSpot characters={characters} cryingCharacters={cryingCharacters} onCollect={handleCollect} level = {level}/> 
       <LevelDisplay level={level} expPercent={expPercent} />
       <PokedexButton onClick={() => setShowPokedex(!showPokedex)} />
       {showPokedex && (
