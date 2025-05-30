@@ -24,6 +24,7 @@ return (
     minWidth: 300,
     minHeight: 100,
     transform: "translate(-400px, -80px)",
+    zIndex: 1,
   }}>
     <img src={woodImg} alt="原木" style={{ width: "200%", height: "200%", objectFit: "contain" }} />
     {spots.map((spot) => (

@@ -5,6 +5,7 @@ import PokedexButton from './components/PokedexButton';
 import LevelDisplay from './components/LevelDisplay';
 import Pokedex from './components/Pokedex';
 import MushroomSpot from './components/MushroomSpot';
+import Background from './components/Background';
 
 function App() {
   const [characters, setCharacters] = useState([]);
@@ -82,6 +83,7 @@ function App() {
   return (
     <div className="App">
       <WoodLog />
+      <Background />
       <MushroomSpot characters={characters} cryingCharacters={cryingCharacters} onCollect={handleCollect} level = {level}/> 
       <LevelDisplay level={level} expPercent={expPercent} />
       <PokedexButton onClick={() => setShowPokedex(!showPokedex)} />
