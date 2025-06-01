@@ -6,6 +6,7 @@ import LevelDisplay from './components/LevelDisplay';
 import Pokedex from './components/Pokedex';
 import MushroomSpot from './components/MushroomSpot';
 import Background from './components/Background';
+import IntervalSelector from './components/IntervalSelector';
 
 function App() {
   const [characters, setCharacters] = useState([]);
@@ -14,6 +15,7 @@ function App() {
   const [exp, setExp] = useState(0);
   const [showPokedex, setShowPokedex] = useState(false);
   const [page, setPage] = useState(1);
+  const [spawnInterval, setSpawnInterval] = useState(60000); // 新增: 生長間隔(ms)
 
   //每個等級需要的累積經驗公式（首項 200，每級 +200）
   const getExpForLevel = (lvl) => {
@@ -82,9 +84,11 @@ function App() {
 
   return (
     <div className="App" style={{ position: 'relative' }}>
+      {/* 用 IntervalSelector 控制生長間隔 */}
+      <IntervalSelector value={spawnInterval} onChange={setSpawnInterval} />
       <WoodLog />
       <Background />
-      <MushroomSpot characters={characters} cryingCharacters={cryingCharacters} onCollect={handleCollect} level={level} />
+      <MushroomSpot characters={characters} cryingCharacters={cryingCharacters} onCollect={handleCollect} level={level} spawnInterval={spawnInterval} />
       <LevelDisplay level={level} expPercent={expPercent} />
       {/* 讓圖鑑按鈕有最高 z-index 並固定在右上角 */}
       <div style={{ position: 'fixed', top: 24, right: 24, zIndex: 100 }}>

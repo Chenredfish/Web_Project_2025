@@ -137,58 +137,34 @@ function getRandomCharacter(characters, level) {
   return available[0]; // fallback
 }
 
-const MushroomSpot = ({ characters = [], cryingCharacters = [], onCollect = () => {}, level = 2 }) => {//add
+const MushroomSpot = ({ characters = [], cryingCharacters = [], onCollect = () => {}, level = 2, spawnInterval = 60000 }) => {//add
   const [mushroomGrid, setMushroomGrid] = useState(Array(50).fill(null));
   const spawnTimeRef = useRef(Array(50).fill(null));//add
 
-  // 每 60 秒嘗試隨機長出一朵香菇
-/*   useEffect(() => {
+
+  useEffect(() => {
     if (characters.length === 0) return;
 
     const interval = setInterval(() => {
-      const emptyIndexes = mushroomGrid
-        .map((m, i) => (m === null ? i : null))
-        .filter(i => i !== null);
-
-      if (emptyIndexes.length === 0) return;//增加
-
-      const randomIndex = emptyIndexes[Math.floor(Math.random() * emptyIndexes.length)];
-      const newMushroom = getRandomCharacter(characters);
-
       setMushroomGrid(prev => {
+        const emptyIndexes = prev
+          .map((m, i) => (m === null ? i : null))
+          .filter(i => i !== null);
+
+        if (emptyIndexes.length === 0) return prev;
+
+        const randomIndex = emptyIndexes[Math.floor(Math.random() * emptyIndexes.length)];
+        const newMushroom = getRandomCharacter(characters, level );
+
         const newGrid = [...prev];
         newGrid[randomIndex] = newMushroom;
-        spawnTimeRef.current[randomIndex] = Date.now();//add
+        spawnTimeRef.current[randomIndex] = Date.now();
         return newGrid;
       });
-    }, 600); // 1 分鐘 = 60000ms
+    }, spawnInterval); // 使用 props 控制間隔
 
     return () => clearInterval(interval);
-  },[characters, mushroomGrid]); */
-
-  useEffect(() => {
-  if (characters.length === 0) return;
-
-  const interval = setInterval(() => {
-    setMushroomGrid(prev => {
-      const emptyIndexes = prev
-        .map((m, i) => (m === null ? i : null))
-        .filter(i => i !== null);
-
-      if (emptyIndexes.length === 0) return prev;
-
-      const randomIndex = emptyIndexes[Math.floor(Math.random() * emptyIndexes.length)];
-      const newMushroom = getRandomCharacter(characters, level );
-
-      const newGrid = [...prev];
-      newGrid[randomIndex] = newMushroom;
-      spawnTimeRef.current[randomIndex] = Date.now(); // 🔧 FIXED: 時間記錄在生成瞬間
-      return newGrid;
-    });
-  }, 60); // 🔧 FIXED: 每 60000ms 嘗試生成
-
-  return () => clearInterval(interval);
-}, [characters,level]); // 🔧 FIXED: 移除 mushroomGrid 依賴
+  }, [characters, level, spawnInterval]); // 加入 spawnInterval 依賴
 
 
 
