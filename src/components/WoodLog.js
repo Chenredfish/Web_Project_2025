@@ -17,16 +17,25 @@ const WoodLog = () => {
 return (
   <div style={{
     position: "relative",
-    width: "80vw",      // 例如佔螢幕 80% 寬
-    maxWidth: 800,      // 最大寬度限制
-    height: "30vw",     // 高度可用比例，或用固定像素
-    maxHeight: 300,
-    minWidth: 300,
+    width: "100vw",      // 佔滿整個視窗寬度
+    height: "80vw",      // 高度可用比例
+    maxHeight: 800,
     minHeight: 100,
-    transform: "translate(-400px, -80px)",
     zIndex: 1,
+    overflow: "hidden",
   }}>
-    <img src={woodImg} alt="原木" style={{ width: "200%", height: "200%", objectFit: "contain" }} />
+    <img
+      src={woodImg}
+      alt="原木"
+      style={{
+        width: "100%",
+        height: "100%",
+        objectFit: "cover",
+        position: "absolute",
+        left: 0,
+        top: 0,
+      }}
+    />
     {spots.map((spot) => (
       <MushroomSpot
         key={spot.id}

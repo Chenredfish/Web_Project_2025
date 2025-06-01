@@ -81,12 +81,15 @@ function App() {
   const { level, expPercent } = calculateLevelAndExp(exp);
 
   return (
-    <div className="App">
+    <div className="App" style={{ position: 'relative' }}>
       <WoodLog />
       <Background />
-      <MushroomSpot characters={characters} cryingCharacters={cryingCharacters} onCollect={handleCollect} level = {level}/> 
+      <MushroomSpot characters={characters} cryingCharacters={cryingCharacters} onCollect={handleCollect} level={level} />
       <LevelDisplay level={level} expPercent={expPercent} />
-      <PokedexButton onClick={() => setShowPokedex(!showPokedex)} />
+      {/* 讓圖鑑按鈕有最高 z-index 並固定在右上角 */}
+      <div style={{ position: 'fixed', top: 24, right: 24, zIndex: 100 }}>
+        <PokedexButton onClick={() => setShowPokedex(!showPokedex)} />
+      </div>
       {showPokedex && (
         <Pokedex
           mushrooms={enrichedMushrooms}

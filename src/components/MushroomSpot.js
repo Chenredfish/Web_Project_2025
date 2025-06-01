@@ -1,81 +1,96 @@
 // src/components/MushroomSpot.js
 import React, { useEffect, useState, useRef } from 'react';
 
-// 格子外層定位樣式（絕對位置 + 置中）
+// 格子外層定位樣式（覆蓋在木頭上，百分比寬高，能點擊）
 const gridWrapperStyle = {
   position: 'absolute',
-  bottom: 85,
-  left: '50%',
-  transform: 'translateX(-50%)',
-  width: 1200,
-  height: 450,
+  left: 0,
+  top: 0,
+  width: '100%',
+  height: '100%',
   overflow: 'hidden',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
   zIndex: 2,
-  //pointerEvents: 'none',
+  pointerEvents: 'auto', // 允許點擊
 };
 
 
-// 每個格子的樣式
+// 每個格子的樣式（更大，間距更寬，適合大木頭）
 const cellStyle = {
-  width: 80,
-  height: 80,
+  width: 120,
+  height: 120,
   backgroundColor: 'transparent',
   border: 'none',
   cursor: 'pointer',
-  backgroundSize: 'cover',
-  backgroundRepeat: 'no-repeat',
-  backgroundPosition: 'center',
-  position: 'absolute', // 這是關鍵：使用絕對座標擺放
+  position: 'absolute',
+  overflow: 'hidden',
+  padding: 0,
+  margin: 0,
 };
 
+// 內層圖片樣式，放大2倍寬，只顯示右半邊
+const imageStyle = {
+  width: '240px', // 2倍寬
+  height: '120px',
+  backgroundSize: 'cover',
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'right center',
+  position: 'absolute',
+  left: '-120px', // 只顯示右半邊
+  top: 0,
+};
+
+// 以木頭中央為基準，x/y 為 -6~+6 之間的百分比偏移
+// 上下距離多4，左右距離多12（更寬更大，適合大木頭）
 const cellPositions = [
-  { x: 0, y: 0 },
-  { x: 400, y: 0 },
-  { x: 800, y: 0 },
-  { x: 900, y: 0 },
-  { x: 1000, y: 0 },
-  { x: 1100, y: 0 },
-  { x: 1200, y: 0 },
-  { x: 0, y: 100 },
-  { x: 100, y: 100 },
-  { x: 200, y: 100 },
-  { x: 300, y: 100 },
-  { x: 400, y: 100 },
-  { x: 500, y: 100 },
-  { x: 600, y: 100 },
-  { x: 700, y: 100 },
-  { x: 800, y: 100 },
-  { x: 900, y: 100 },
-  { x: 1000, y: 100 },
-  { x: 1100, y: 100 },
-  { x: 1200, y: 100 },
-  { x: 0, y: 200 },
-  { x: 100, y: 200 },
-  { x: 200, y: 200 },
-  { x: 300, y: 200 },
-  { x: 400, y: 200 },
-  { x: 500, y: 200 },
-  { x: 600, y: 200 },
-  { x: 700, y: 200 },
-  { x: 800, y: 200 },
-  { x: 900, y: 200 },
-  { x: 1000, y: 200 },
-  { x: 1100, y: 200 },
-  { x: 1200, y: 200 },
-  { x: 0, y: 300 },
-  { x: 100, y: 300 },
-  { x: 200, y: 300 },
-  { x: 300, y: 300 },
-  { x: 400, y: 300 },
-  { x: 500, y: 300 },
-  { x: 600, y: 300 },
-  { x: 700, y: 300 },
-  { x: 800, y: 300 },
-  { x: 900, y: 300 },
-  { x: 1000, y: 300 },
+  // 右上新排 (y: -36)
+  { x:  4,  y: -36 },
+  { x: 16,  y: -36 },
+  { x: 28,  y: -36 },
+  { x: 40,  y: -36 },
+
+  // 上排 (y: -24)
+  { x: -44, y: -24 },
+  { x: -32, y: -24 },
+  { x: -20, y: -24 },
+  { x:  -8, y: -24 },
+  { x:   4, y: -24 },
+  { x:  16, y: -24 },
+  { x:  28, y: -24 },
+  { x:  40, y: -24 },
+
+  // 次上排 (y: -12)
+  { x: -44, y: -12 },
+  { x: -32, y: -12 },
+  { x: -20, y: -12 },
+  { x:  -8, y: -12 },
+  { x:   4, y: -12 },
+  { x:  16, y: -12 },
+  { x:  28, y: -12 },
+  { x:  40, y: -12 },
+
+  // 中排 (y: 0)
+  { x: -44, y:   0 },
+  { x: -32, y:   0 },
+  { x: -20, y:   0 },
+  { x:  -8, y:   0 },
+  { x:   4, y:   0 },
+  { x:  16, y:   0 },
+  { x:  28, y:   0 },
+  { x:  40, y:   0 },
+
+  // 次下排 (y: 12)
+  { x: -44, y:  12 },
+  { x: -32, y:  12 },
+  { x: -20, y:  12 },
+  { x:  -8, y:  12 },
+  { x:   4, y:  12 },
+  { x:  16, y:  12 },
+
+  // 下排 (y: 24)
+  { x: -44, y:  24 },
+  { x: -32, y:  24 },
+  { x: -20, y:  24 },
+  { x:  -8, y:  24 },
 ];
 
 // 根據稀有度機率抽角色
@@ -224,12 +239,21 @@ const MushroomSpot = ({ characters = [], cryingCharacters = [], onCollect = () =
             key={index}
             style={{
               ...cellStyle,
-              left: pos.x,
-              top: pos.y,
-              backgroundImage: `url(${mushroom.image})`,
+              left: `${50 + pos.x}%`,
+              top: `${50 + pos.y}%`,
+              transform: 'translate(-50%, -50%)',
+              pointerEvents: 'auto', // 允許點擊
             }}
             onClick={() => handleClick(index)}
-          />
+          >
+            <div
+              style={{
+                ...imageStyle,
+                backgroundImage: `url(${mushroom.image})`,
+                pointerEvents: 'none', // 讓點擊事件落在外層div
+              }}
+            />
+          </div>
         ) : null;
       })}
     </div>
