@@ -142,6 +142,11 @@ const MushroomSpot = ({ characters = [], cryingCharacters = [], onCollect = () =
   const spawnTimeRef = useRef(Array(50).fill(null));//add
 
 
+
+  // 狀態: 正在枯萎倒數的 index 與其結束時間
+  const [withering, setWithering] = useState(null); // { index, endTime }
+
+  // 生成邏輯: 只要還有空格就繼續長，直到滿格
   useEffect(() => {
     if (characters.length === 0) return;
 
@@ -161,35 +166,44 @@ const MushroomSpot = ({ characters = [], cryingCharacters = [], onCollect = () =
         spawnTimeRef.current[randomIndex] = Date.now();
         return newGrid;
       });
-    }, spawnInterval); // 使用 props 控制間隔
+    }, spawnInterval);
 
     return () => clearInterval(interval);
-  }, [characters, level, spawnInterval]); // 加入 spawnInterval 依賴
+  }, [characters, level, spawnInterval]);
 
-
-
-
-    // 替換超過100000ms的香菇為哭哭香菇
+  // 當格子滿時，開始隨機挑一個菇菇進入枯萎倒數
   useEffect(() => {
-    const interval = setInterval(() => {
-      const now = Date.now();
+    if (!mushroomGrid.every(m => m !== null)) return; // 沒滿不做事
+    if (withering !== null) return; // 已經有在倒數
 
-      setMushroomGrid(prev => {
-        const newGrid = [...prev];
-        for (let i = 0; i < newGrid.length; i++) {
-          const spawnTime = spawnTimeRef.current[i];
-          if (newGrid[i] && spawnTime && (now - spawnTime > 100000)) {
+    // 隨機選一個 index
+    const idxs = mushroomGrid.map((m, i) => m ? i : null).filter(i => i !== null);
+    if (idxs.length === 0) return;
+    const randomIdx = idxs[Math.floor(Math.random() * idxs.length)];
+    // 設定倒數 100 秒
+    setWithering({ index: randomIdx, endTime: Date.now() + 100000 });
+  }, [mushroomGrid, withering]);
+
+  // 倒數計時 effect
+  useEffect(() => {
+    if (!withering) return;
+    const timer = setInterval(() => {
+      if (Date.now() >= withering.endTime) {
+        setMushroomGrid(prev => {
+          const newGrid = [...prev];
+          // 只處理還沒被收成的
+          if (newGrid[withering.index]) {
             const newCry = getRandomCharacter(cryingCharacters);
-            newGrid[i] = newCry;
-            spawnTimeRef.current[i] = now; // reset time after replacing
+            newGrid[withering.index] = newCry;
+            spawnTimeRef.current[withering.index] = Date.now();
           }
-        }
-        return newGrid;
-      });
-    }, 500); // 每 0.5 秒檢查一次
-
-    return () => clearInterval(interval);
-  }, [cryingCharacters]);
+          return newGrid;
+        });
+        setWithering(null); // 重置，讓下次再選一個
+      }
+    }, 200);
+    return () => clearInterval(timer);
+  }, [withering, cryingCharacters]);
 
 
   // 點擊格子時，觸發收集
@@ -199,10 +213,14 @@ const MushroomSpot = ({ characters = [], cryingCharacters = [], onCollect = () =
       onCollect(index, mushroom);
       setMushroomGrid(prev => {
         const newGrid = [...prev];
-        newGrid[index] = null;//add
-        spawnTimeRef.current[index] = null;//add
+        newGrid[index] = null;
+        spawnTimeRef.current[index] = null;
         return newGrid;
       });
+      // 如果收成的是正在枯萎倒數的那個，重置倒數
+      if (withering && withering.index === index) {
+        setWithering(null);
+      }
     }
   };
 
