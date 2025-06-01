@@ -131,10 +131,30 @@ function getRandomCharacter(characters, level) {
   const totalWeight = available.reduce((sum, char) => sum + char.rarity, 0);
   let rand = Math.random() * totalWeight;
   for (const char of available) {
-    if (rand < char.rarity) return char;
+    if (rand < char.rarity) {
+      // 如果是普通菇菇（id: "01"），隨機選一張圖片
+      if (char.id === "01") {
+        const imgIdx = Math.floor(Math.random() * 3) + 1; // 1, 2, 3
+        // 複製 char 並隨機換 image
+        return {
+          ...char,
+          image: `images/first/ndxp_0001_0${imgIdx}.webp`,
+        };
+      }
+      return char;
+    }
     rand -= char.rarity;
   }
-  return available[0]; // fallback
+  // fallback
+  const fallback = available[0];
+  if (fallback && fallback.id === "01") {
+    const imgIdx = Math.floor(Math.random() * 3) + 1;
+    return {
+      ...fallback,
+      image: `images/first/ndxp_0001_0${imgIdx}.webp`,
+    };
+  }
+  return fallback;
 }
 
 const MushroomSpot = ({ characters = [], cryingCharacters = [], onCollect = () => {}, level = 2, spawnInterval = 60000 }) => {//add
